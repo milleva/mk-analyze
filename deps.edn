@@ -1,0 +1,6 @@
+{:deps
+ {net.mikera/imagez {:mvn/version "0.12.0"}}
+ :paths [:clj-paths :resource-paths]
+ :aliases
+ {:clj-paths ["src" "src"]
+  :resource-paths ["resources"]}}
