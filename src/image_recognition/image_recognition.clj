@@ -1,7 +1,6 @@
 (ns image-recognition.image-recognition
   (:use mikera.image.core)
-  (:require [clojure.java.io :as io]
-            [clojure.math :as math]))
+  (:require [clojure.math :as math]))
 
 (defn- flatv [s]
   (-> s flatten vec))
@@ -49,8 +48,8 @@
 
 
 (defn grid-rgb-difs [img-1 img-2 n]
-  (let [grid-1-flat (vec (flatten (get-image-rgb-grid img-1 n)))
-        grid-2-flat (vec (flatten (get-image-rgb-grid img-2 n)))]
+  (let [grid-1-flat (flatv (get-image-rgb-grid img-1 n))
+        grid-2-flat (flatv (get-image-rgb-grid img-2 n))]
 
     (->> (range (min (count grid-1-flat) (count grid-2-flat)))
          (map (fn [i]
