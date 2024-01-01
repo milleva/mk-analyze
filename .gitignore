@@ -6,3 +6,4 @@
 .lsp/.cache/db.transit.json
 media/
 .DS_Store
+.clj-kondo/
