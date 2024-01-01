@@ -1,5 +1,6 @@
 {:deps
- {net.mikera/imagez {:mvn/version "0.12.0"}}
+ {net.mikera/imagez {:mvn/version "0.12.0"}
+  w33t/kawa {:mvn/version "0.1.2"}}
  :paths [:clj-paths :resource-paths]
  :aliases
  {:clj-paths ["src" "src"]
