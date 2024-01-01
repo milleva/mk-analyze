@@ -32,13 +32,3 @@
       (if analysis
         (recur (inc idx) (conj res analysis))
         res))))
-
-(defn analyze-video [path]
-  ;(vp/clip-video path)
-  ;analyze images
-  ;delete clipped images / cleanup
-  ;return vector of analyzed-images
-  )
-
-;analyze video path
-;clip-video
