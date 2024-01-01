@@ -5,3 +5,4 @@
 .lsp/.cache/db.transit.json
 .lsp/.cache/db.transit.json
 media/
+.DS_Store
