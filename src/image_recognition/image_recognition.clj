@@ -203,3 +203,12 @@
     (prn)
     ))
 
+(defn recognize-placement [path]
+  nil)
+
+(defn recognize-item-1 [path]
+  nil)
+
+(defn recognize-item-2 [path]
+  nil)
+
