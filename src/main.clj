@@ -6,7 +6,8 @@
 (def ^:private DEFAULT-FPS 2)
 
 (defn clip [_]
-  (vp/clip-video "media/MKPLACEMENTS_CUT.mov" DEFAULT-FPS))
+  (prn "clip")
+  (vp/clip-video "media/first_recording.mkv" DEFAULT-FPS))
 
 (defn analyze [_]
   (prn "analysis")

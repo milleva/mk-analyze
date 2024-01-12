@@ -1,13 +1,22 @@
 (ns video-processing.video-processing
   (:require [clojure.java.io :as io]
             [helpers :refer [->4digits]]
-            [kawa.core :refer [ffmpeg!]]))
+            [kawa.core :refer [ffmpeg!]]
+            [kawa.manager :as manager]))
 
 ;ffmpeg -i MKPLACEMENTS_CUT.mov -vf fps=1/3 %04d.png
 
+(defn loop-wait []
+  (prn "looping")
+  (prn (manager/ls))
+  (Thread/sleep 5000)
+  (loop-wait)
+  )
+
 (defn clip-video
   ([path fps]
-  (ffmpeg! :i path :vf (str "fps=" fps) "resources/images/clipped/%04d.png"))
+  (ffmpeg! :i path :vf (str "fps=" fps) "resources/images/clipped/%04d.png")
+   (loop-wait))
   ([path]
   (clip-video path 2)))
 
