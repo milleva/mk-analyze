@@ -5,13 +5,11 @@
 
 ;ffmpeg -i MKPLACEMENTS_CUT.mov -vf fps=1/3 %04d.png
 
-(defn clip-video [path]
-  (ffmpeg! :i path :vf "fps=1/3" "resources/images/clipped/%04d.png"))
-
-(defn clip-test-video []
-  (prn "CLIBBING")
-  (let [shit (ffmpeg! :i "media/MKPLACEMENTS_CUT.mov" :vf "fps=1/3" "resources/images/clipped/%04d.png")]
-    (prn "shit " shit)))
+(defn clip-video
+  ([path fps]
+  (ffmpeg! :i path :vf (str "fps=" fps) "resources/images/clipped/%04d.png"))
+  ([path]
+  (clip-video path 2)))
 
 (defn safe-delete [name] ;; TODO helpers
   (try
