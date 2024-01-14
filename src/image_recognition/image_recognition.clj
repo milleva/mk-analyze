@@ -49,7 +49,7 @@
         y-coords (->coords-range h)]
     (mapv (fn [x]
             (mapv (fn [y]
-                    (img-rgb-components-at img x y))
+                    (.getRGB img x y))
                   y-coords)) x-coords)))
 
 
@@ -75,6 +75,10 @@
 
 (defn load-test-placement [n]
   (load-image-resource (str "images/placements/test/" n ".png")))
+
+(defn get-test-img-color-grid [name n]
+  (let [img (load-image-resource (str "images/test/" name ".png"))]
+    (get-image-rgb-grid img n)))
 
 (defn print-image-data []
   (prn (str "images/" "1st" ".png"))

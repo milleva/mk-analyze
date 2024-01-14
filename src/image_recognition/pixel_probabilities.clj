@@ -1,31 +1,63 @@
-(ns image-recognition.pixel-probabilities)
+(ns image-recognition.pixel-probabilities
+  (:require [image-recognition.image-recognition :refer [get-test-img-color-grid]]))[]
+
+(defn get2d [m x y]
+  (-> m (get x) (get y)))
+
+(def classes [1 2 3 4 5 6 7 8 9 10 11 12])
+
+;strucure where all pixels' color info are stored i.e. color counts & color probabilities
+(defn new-atom-grid [n]
+  (mapv (fn [_]
+         (mapv (fn [_] (atom {}))
+              (range n))) (range n)))
+
 
 (defn- get-test-img-count [class])
 (defn- inc-test-image-count [class])
 
-(defn- get-color-count-atom-for-pixel [pixel]
-  )
 
-(defn add-pixel-color-to-data [class pixel]
-  (let [pixel-color-counts (get-color-count-atom-for-pixel pixel)
-        {color :color} pixel]
+(def n 5)
+(def test-grid (new-atom-grid 5))
+
+(defn- get-color-count-atom-for-pixel [{:keys [x y]}]
+  (let [color-count-atom-grid (get2d test-grid x y)
+        color-count-atom (get2d color-count-atom-grid x y)]
+    color-count-atom))
+
+(defn add-pixel-color-to-data [class color pixel]
+  (let [pixel-color-counts (get-color-count-atom-for-pixel pixel)]
+    (prn "shit 2")
+    (prn "shit2" pixel-color-counts)
     (if (contains? pixel-color-counts color)
-      (update pixel-color-counts color inc); todo to mutative because atoms
-      (assoc pixel-color-counts color 1))))
+      (swap! pixel-color-counts #(update % color inc)); todo to mutative because atoms
+      (swap! pixel-color-counts #(assoc % color 1)))))
 
 ;n = pixel grid width (= height)
 (defn add-pixels-colors-to-data [class color-grid n]
   (inc-test-image-count class)
+  (prn "shit 1")
   (for [x (range n)
         y (range n)
-        :let [color (-> color-grid
-                        (get x)
-                        (get y))]]
-    (add-pixel-color-to-data class color)))
+        :let [color (get2d color-grid x y)]]
+    (add-pixel-color-to-data class color {:x x :y y})))
+
+(defn read-test-image [class]
+  (let [color-grid (get-test-img-color-grid "white_shit" n)]
+    (prn "n" n)
+    (prn "(count color-grid)" (count color-grid))
+    (add-pixels-colors-to-data class color-grid (count color-grid))
+    (prn "result")
+    (prn @(get2d test-grid 1 1))))
 
 
-(defn- create-probabilities-for-pixel [color-counts-grid {:keys [x y] :as pixel} test-img-count]
-  (let [color-counts (-> color-counts-grid (get x) (get y))]
+
+
+
+
+
+(defn- create-probabilities-for-pixel [color-counts-grid {:keys [x y]} test-img-count]
+  (let [color-counts (get2d color-counts-grid x y)]
     (->> (seq color-counts)
          (map
           (fn [[color count]]
@@ -43,9 +75,7 @@
 (defn- get-color-probabilities-for-class [class])
 
 (defn probability-that-pixel-is-of-class [class-color-probabilities-grid color {:keys [x y] :as pixel}]
-  (let [probability (-> class-color-probabilities-grid
-                        (get x)
-                        (get y)
+  (let [probability (-> (get2d class-color-probabilities-grid x y)
                         (get color))]
     (or probability 0.01)))
 
@@ -62,12 +92,6 @@
     p))
 
 (defn classify-image [classes color-grid n]
-  (let [classes-and-probabilities (map (fn [class]
-                                         {:class class
-                                          :probability (get-probability-that-image-is-of-class class color-grid n)})
-                                       classes)
-        best-class (->> classes-and-probabilities
-                        (sort-by :probability)
-                        last
-                        :class)]
-    best-class))
+  (->> classes
+         (sort-by #(get-probability-that-image-is-of-class % color-grid n))
+         last))

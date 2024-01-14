@@ -1,7 +1,7 @@
 (ns main
-  (:require [image-recognition.image-recognition :as ir]
-            [video-processing.video-processing :as vp]
-            [analysis :as analysis]))
+  (:require [analysis :as analysis]
+            [image-recognition.pixel-probabilities :refer [read-test-image]]
+            [video-processing.video-processing :as vp]))
 
 (def ^:private DEFAULT-FPS 2)
 
@@ -34,5 +34,5 @@
     (operation opts)))
 
 (defn tezt [_]
-  (ir/print-image-data))
+  (read-test-image nil))
 
