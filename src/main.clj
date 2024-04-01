@@ -34,9 +34,21 @@
                    analyze)]
     (operation opts)))
 
+;image w, h = [1920, 1080]
+;placement location width within pixels 1600, 1850
+;placement location height within pixels 860, 1030
+
+
 (defn tezt [_]
-  (let [path "images/test/white_shit.png"
+  (let [path "images/clipped/0378.png"
         img (load-image-resource path)]
     (prn (ir/img-wh img))
-    (prn (ir/img-rgb-components-at img 10 50))))
+
+    (prn (ir/img-rgb-components-at img 10 10))
+    (prn (ir/img-rgb-components-at img 10 20))
+    (prn (ir/img-rgb-components-at img 10 30))
+    (prn (ir/img-rgb-components-at img 20 10))
+    (prn (ir/img-rgb-components-at img 20 20))
+    (prn (ir/img-rgb-components-at img 20 30))
+    ))
 
