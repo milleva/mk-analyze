@@ -34,7 +34,7 @@
   (let [rgb-long (.getRGB img x y)]
     (rgb-components rgb-long)))
 
-(defn- img-wh [img]
+(defn img-wh [img]
   [(.getWidth img) (.getHeight img)])
 
 (defn- get-image-rgb-grid [img n]

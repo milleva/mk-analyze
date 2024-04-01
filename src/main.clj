@@ -1,6 +1,7 @@
 (ns main
+  (:use mikera.image.core)
   (:require [analysis :as analysis]
-            [image-recognition.pixel-probabilities :refer [read-test-image]]
+            [image-recognition.image-recognition :as ir]
             [video-processing.video-processing :as vp]))
 
 (def ^:private DEFAULT-FPS 2)
@@ -34,5 +35,8 @@
     (operation opts)))
 
 (defn tezt [_]
-  (read-test-image nil))
+  (let [path "images/test/white_shit.png"
+        img (load-image-resource path)]
+    (prn (ir/img-wh img))
+    (prn (ir/img-rgb-components-at img 10 50))))
 
