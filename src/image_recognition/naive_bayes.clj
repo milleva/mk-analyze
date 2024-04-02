@@ -10,6 +10,14 @@
 ;first implement only for classes :first & :second
 ;what is the probability that given only pixel 1, image is :first (and that image is :second)
 
+;TODO
+;next implement only for classes :first & :second
+;what is the probability that given first two pixels 1 & 2, image is :first (and that image is :second)
+
+;TODO
+;next implement for classes :first & :second & :third
+;what is the probability that given first two pixels 1 & 2, image is :first (and that image is :second/:third)
+
 (def ^:private classes
   [:first :second :third :fourth :fifth :sixth :seventh :eigth :nineth :tenth :eleventh :twelfth])
 
@@ -35,16 +43,16 @@
     (/ R (+ R 1))))
 
 (defn bayes-1 []
-  (let [distinct-occurrences-first [["1;2;2" 4]
-                                    ["5;3;2" 5]]
-        distinct-occurrences-second [["10;0;255" 2]
-                                     ["15;3;2" 7]]
+  (let [px-1-distinct-occurrences-first [["1;2;2" 4]
+                                         ["5;3;2" 5]]
+        px-1-distinct-occurrences-second [["10;0;255" 2]
+                                          ["15;3;2" 7]]
 
-        total-occurrences-first (distincts->total distinct-occurrences-first)
-        total-occurrences-second (distincts->total distinct-occurrences-second)
+        total-occurrences-first (distincts->total px-1-distinct-occurrences-first)
+        total-occurrences-second (distincts->total px-1-distinct-occurrences-second)
 
-        first-probabilities (->class-probabilities distinct-occurrences-first total-occurrences-first)
-        second-probabilities (->class-probabilities distinct-occurrences-second total-occurrences-second)
+        first-probabilities (->class-probabilities px-1-distinct-occurrences-first total-occurrences-first)
+        second-probabilities (->class-probabilities px-1-distinct-occurrences-second total-occurrences-second)
 
         probability-img-is-first-for-pixel-1 (p-is-first-for-pixel-1 "0;0;0" first-probabilities second-probabilities)]
     (prn probability-img-is-first-for-pixel-1)
