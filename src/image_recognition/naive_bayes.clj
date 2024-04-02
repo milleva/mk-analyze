@@ -42,11 +42,17 @@
         R (Math/exp logR)]
     (/ R (+ R 1))))
 
+(def ^:private distinct-occurrences-first
+  {:px1 [["1;2;2" 4]
+         ["5;3;2" 5]]})
+
+(def ^:private distinct-occurrences-second
+  {:px1 [["10;0;255" 2]
+         ["15;3;2" 7]]})
+
 (defn bayes-1 []
-  (let [px-1-distinct-occurrences-first [["1;2;2" 4]
-                                         ["5;3;2" 5]]
-        px-1-distinct-occurrences-second [["10;0;255" 2]
-                                          ["15;3;2" 7]]
+  (let [px-1-distinct-occurrences-first (:px1 distinct-occurrences-first)
+        px-1-distinct-occurrences-second (:px1 distinct-occurrences-second)
 
         total-occurrences-first (distincts->total px-1-distinct-occurrences-first)
         total-occurrences-second (distincts->total px-1-distinct-occurrences-second)
