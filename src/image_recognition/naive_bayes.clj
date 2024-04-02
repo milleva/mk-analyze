@@ -10,7 +10,6 @@
 ;first implement only for classes :first & :second
 ;what is the probability that given only pixel 1, image is :first (and that image is :second)
 
-;TODO
 ;next implement only for classes :first & :second
 ;what is the probability that given first two pixels 1 & 2, image is :first (and that image is :second)
 
@@ -39,15 +38,25 @@
       (second color-p)
       0.0000001)))
 
-(defn- p-is-first-for-pixel-1 [color first-probabilities second-probabilities]
-  (let [p-first (get-probability color first-probabilities)
-        p-second (get-probability color second-probabilities)
+(defn- p-is-first-for-pixels [colors first-probabilities second-probabilities]
+  (let [logRs (map-indexed (fn [i color]
+                             (let [first-ps (get first-probabilities i)
+                                   second-ps (get second-probabilities i)
 
-        logR (- (Math/log p-first) (Math/log p-second))
+                                   p-first (get-probability color first-ps)
+                                   p-second (get-probability color second-ps)
+
+                                   increment (- (Math/log p-first) (Math/log p-second))]
+                               increment))
+                           colors)
+
+
+        logR (apply + logRs)
         R (Math/exp logR)]
     (/ R (+ R 1))))
 
 ; -- training data --
+; assumed same amount of total occurrences for all pixels per class
 (def ^:private distinct-occurrences-first
   [[["1;2;2" 4] ;px1
     ["5;3;2" 5]]
@@ -61,16 +70,15 @@
    ["3;5;1" 3]]])
 ; --------------------
 
+(def ^:private test-data
+  ["15;3;2" "3;5;1"])
+
 (defn bayes-1 []
-  (let [px-1-distinct-occurrences-first (first distinct-occurrences-first)
-        px-1-distinct-occurrences-second (first distinct-occurrences-second)
+  (let [total-occurrences-first (distincts->total (first distinct-occurrences-first))
+        total-occurrences-second (distincts->total (first distinct-occurrences-second))
 
-        total-occurrences-first (distincts->total px-1-distinct-occurrences-first)
-        total-occurrences-second (distincts->total px-1-distinct-occurrences-second)
+        first-probabilities-pxs (mapv #(->class-probabilities % total-occurrences-first) distinct-occurrences-first)
+        second-probabilities-pxs (mapv #(->class-probabilities % total-occurrences-second) distinct-occurrences-second)
 
-        first-probabilities-px1 (->class-probabilities px-1-distinct-occurrences-first total-occurrences-first)
-        second-probabilities-px1 (->class-probabilities px-1-distinct-occurrences-second total-occurrences-second)
-
-        probability-img-is-first-for-pixel-1 (p-is-first-for-pixel-1 "0;0;0" first-probabilities-px1 second-probabilities-px1)]
-    (prn probability-img-is-first-for-pixel-1)
-    probability-img-is-first-for-pixel-1))
+        probability-img-is-first-for-pixels (p-is-first-for-pixels test-data first-probabilities-pxs second-probabilities-pxs)]
+    probability-img-is-first-for-pixels))
