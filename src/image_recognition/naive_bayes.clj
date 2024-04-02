@@ -18,6 +18,11 @@
 ;next implement for classes :first & :second & :third
 ;what is the probability that given first two pixels 1 & 2, image is :first (and that image is :second/:third)
 
+;TODO
+;next implement for all classes :first, :second, :third ...
+;what is the probability that given all pixels 1-425, image is :first (and that image is :second/:third)
+;=> which class has highest probability
+
 (def ^:private classes
   [:first :second :third :fourth :fifth :sixth :seventh :eigth :nineth :tenth :eleventh :twelfth])
 
