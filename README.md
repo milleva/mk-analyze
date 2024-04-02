@@ -6,7 +6,7 @@ Sart from root with
 Where options are
 `clip`, `analyze`, `clean` & `clip-new`
 
-Uses a wrapper for `ffmpeg`. To run, you need ffmpeg installed on your system and runnable through your system path. \
+Uses a wrapper for `ffmpeg` for video file processing. To run, you need ffmpeg installed on your system and runnable through your system path. \
 
 reference links: \
 https://ffmpeg.org/ \
