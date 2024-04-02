@@ -39,7 +39,7 @@
       (second color-p)
       0.0000001)))
 
-(defn- p-is-first-for-pixels [colors first-probabilities second-probabilities]
+(defn- p-is-class-1 [colors first-probabilities second-probabilities]
   (let [logRincrements (map-indexed (fn [i color]
                              (let [first-ps (get first-probabilities i)
                                    second-ps (get second-probabilities i)
@@ -53,6 +53,16 @@
         logR (apply + logRincrements)
         R (pow 10 logR)]
     (/ R (+ R 1))))
+
+(defn- summarize-training-data [class-training-data]
+  (let [total-occurrences (distincts->total (first class-training-data))
+        probabilities (mapv #(->class-probabilities % total-occurrences) class-training-data)]
+    probabilities))
+
+(defn inputted-bayes-1 [class-1-training-data class-2-training-data test-data]
+  (let [class-1-probabilities (summarize-training-data class-1-training-data)
+        class-2-probabilities (summarize-training-data class-2-training-data)]
+    (p-is-class-1 test-data class-1-probabilities class-2-probabilities)))
 
 ; -- training data --
 ; assumed same amount of total occurrences for all pixels per class
@@ -73,11 +83,4 @@
   ["15;3;2" "3;5;1"])
 
 (defn bayes-1 []
-  (let [total-occurrences-first (distincts->total (first distinct-occurrences-first))
-        total-occurrences-second (distincts->total (first distinct-occurrences-second))
-
-        first-probabilities-pxs (mapv #(->class-probabilities % total-occurrences-first) distinct-occurrences-first)
-        second-probabilities-pxs (mapv #(->class-probabilities % total-occurrences-second) distinct-occurrences-second)
-
-        probability-img-is-first-for-pixels (p-is-first-for-pixels test-data first-probabilities-pxs second-probabilities-pxs)]
-    probability-img-is-first-for-pixels))
+  (inputted-bayes-1 distinct-occurrences-first distinct-occurrences-second test-data))
