@@ -39,13 +39,13 @@
       (second color-p)
       0.0000001)))
 
-(defn- p-is-class-1 [colors class-1-probabilities class-2-probabilities]
+(defn- p-is-class-a [colors class-a-probabilities class-b-probabilities]
   (let [logRincrements (map-indexed (fn [i color]
-                             (let [class-1-ps (get class-1-probabilities i)
-                                   class-2-ps (get class-2-probabilities i)
-                                   p-class-1 (get-probability color class-1-ps)
-                                   p-class-2 (get-probability color class-2-ps)]
-                               (- (log10 p-class-1) (log10 p-class-2))))
+                             (let [class-a-ps (get class-a-probabilities i)
+                                   class-b-ps (get class-b-probabilities i)
+                                   p-class-a (get-probability color class-a-ps)
+                                   p-class-b (get-probability color class-b-ps)]
+                               (- (log10 p-class-a) (log10 p-class-b))))
                            colors)
         logR (apply + logRincrements)
         R (pow 10 logR)]
@@ -57,9 +57,9 @@
     probabilities))
 
 (defn inputted-bayes-1 [class-1-training-data class-2-training-data test-data]
-  (let [class-1-probabilities (summarize-training-data class-1-training-data)
-        class-2-probabilities (summarize-training-data class-2-training-data)]
-    (p-is-class-1 test-data class-1-probabilities class-2-probabilities)))
+  (let [class-a-probabilities (summarize-training-data class-1-training-data)
+        class-b-probabilities (summarize-training-data class-2-training-data)]
+    (p-is-class-a test-data class-a-probabilities class-b-probabilities)))
 
 ; -- training data --
 ; assumed same amount of total occurrences for all pixels per class
@@ -80,4 +80,6 @@
   ["15;3;2" "3;5;1"])
 
 (defn bayes-1 []
+  (prn (inputted-bayes-1 distinct-occurrences-first distinct-occurrences-second test-data))
+  (prn (inputted-bayes-1 distinct-occurrences-second distinct-occurrences-first test-data))
   (inputted-bayes-1 distinct-occurrences-first distinct-occurrences-second test-data))
