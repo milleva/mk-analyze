@@ -39,16 +39,13 @@
       (second color-p)
       0.0000001)))
 
-(defn- p-is-class-1 [colors first-probabilities second-probabilities]
+(defn- p-is-class-1 [colors class-1-probabilities class-2-probabilities]
   (let [logRincrements (map-indexed (fn [i color]
-                             (let [first-ps (get first-probabilities i)
-                                   second-ps (get second-probabilities i)
-
-                                   p-first (get-probability color first-ps)
-                                   p-second (get-probability color second-ps)
-
-                                   increment (- (log10 p-first) (log10 p-second))]
-                               increment))
+                             (let [class-1-ps (get class-1-probabilities i)
+                                   class-2-ps (get class-2-probabilities i)
+                                   p-class-1 (get-probability color class-1-ps)
+                                   p-class-2 (get-probability color class-2-ps)]
+                               (- (log10 p-class-1) (log10 p-class-2))))
                            colors)
         logR (apply + logRincrements)
         R (pow 10 logR)]
