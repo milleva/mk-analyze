@@ -40,7 +40,7 @@
       0.0000001)))
 
 (defn- p-is-first-for-pixels [colors first-probabilities second-probabilities]
-  (let [logRs (map-indexed (fn [i color]
+  (let [logRincrements (map-indexed (fn [i color]
                              (let [first-ps (get first-probabilities i)
                                    second-ps (get second-probabilities i)
 
@@ -50,9 +50,7 @@
                                    increment (- (log10 p-first) (log10 p-second))]
                                increment))
                            colors)
-
-
-        logR (apply + logRs)
+        logR (apply + logRincrements)
         R (pow 10 logR)]
     (/ R (+ R 1))))
 
