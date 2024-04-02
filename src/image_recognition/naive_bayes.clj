@@ -42,13 +42,19 @@
         R (Math/exp logR)]
     (/ R (+ R 1))))
 
+; -- training data --
 (def ^:private distinct-occurrences-first
   {:px1 [["1;2;2" 4]
-         ["5;3;2" 5]]})
+         ["5;3;2" 5]]
+   :px2 [["0;1;2" 4]
+         ["3;2;1" 5]]})
 
 (def ^:private distinct-occurrences-second
   {:px1 [["10;0;255" 2]
-         ["15;3;2" 7]]})
+         ["15;3;2" 7]]
+   :px2 [["5;1;2" 6]
+         ["3;5;1" 3]]})
+; --------------------
 
 (defn bayes-1 []
   (let [px-1-distinct-occurrences-first (:px1 distinct-occurrences-first)
@@ -57,9 +63,9 @@
         total-occurrences-first (distincts->total px-1-distinct-occurrences-first)
         total-occurrences-second (distincts->total px-1-distinct-occurrences-second)
 
-        first-probabilities (->class-probabilities px-1-distinct-occurrences-first total-occurrences-first)
-        second-probabilities (->class-probabilities px-1-distinct-occurrences-second total-occurrences-second)
+        first-probabilities-px1 (->class-probabilities px-1-distinct-occurrences-first total-occurrences-first)
+        second-probabilities-px1 (->class-probabilities px-1-distinct-occurrences-second total-occurrences-second)
 
-        probability-img-is-first-for-pixel-1 (p-is-first-for-pixel-1 "0;0;0" first-probabilities second-probabilities)]
+        probability-img-is-first-for-pixel-1 (p-is-first-for-pixel-1 "0;0;0" first-probabilities-px1 second-probabilities-px1)]
     (prn probability-img-is-first-for-pixel-1)
     probability-img-is-first-for-pixel-1))
