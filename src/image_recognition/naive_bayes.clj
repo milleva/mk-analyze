@@ -1,4 +1,5 @@
-(ns image-recognition.naive-bayes)
+(ns image-recognition.naive-bayes
+  (:require [clojure.math :refer [log10 pow]]))
 
 ;image w, h = [1920, 1080]
 ;placement location width within pixels 1600, 1850 => 250
@@ -46,13 +47,13 @@
                                    p-first (get-probability color first-ps)
                                    p-second (get-probability color second-ps)
 
-                                   increment (- (Math/log p-first) (Math/log p-second))]
+                                   increment (- (log10 p-first) (log10 p-second))]
                                increment))
                            colors)
 
 
         logR (apply + logRs)
-        R (Math/exp logR)]
+        R (pow 10 logR)]
     (/ R (+ R 1))))
 
 ; -- training data --
