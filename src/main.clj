@@ -2,6 +2,7 @@
   (:use mikera.image.core)
   (:require [analysis :as analysis]
             [image-recognition.image-recognition :as ir]
+            [image-recognition.naive-bayes :refer [bayes-1]]
             [video-processing.video-processing :as vp]))
 
 (def ^:private DEFAULT-FPS 2)
@@ -44,6 +45,9 @@
         img (load-image-resource path)]
     (prn (ir/img-wh img))
 
+    (prn "w" (- 1850 1600))
+    (prn "h" (- 1030 860))
+
     (prn (ir/img-rgb-components-at img 10 10))
     (prn (ir/img-rgb-components-at img 10 20))
     (prn (ir/img-rgb-components-at img 10 30))
@@ -51,4 +55,7 @@
     (prn (ir/img-rgb-components-at img 20 20))
     (prn (ir/img-rgb-components-at img 20 30))
     ))
+
+(defn test-bayes-1 [_]
+  (bayes-1))
 
