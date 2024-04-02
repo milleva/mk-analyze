@@ -49,21 +49,21 @@
 
 ; -- training data --
 (def ^:private distinct-occurrences-first
-  {:px1 [["1;2;2" 4]
-         ["5;3;2" 5]]
-   :px2 [["0;1;2" 4]
-         ["3;2;1" 5]]})
+  [[["1;2;2" 4] ;px1
+    ["5;3;2" 5]]
+   [["0;1;2" 4] ;px2
+    ["3;2;1" 5]]])
 
 (def ^:private distinct-occurrences-second
-  {:px1 [["10;0;255" 2]
-         ["15;3;2" 7]]
-   :px2 [["5;1;2" 6]
-         ["3;5;1" 3]]})
+ [[["10;0;255" 2]
+   ["15;3;2" 7]]
+  [["5;1;2" 6]
+   ["3;5;1" 3]]])
 ; --------------------
 
 (defn bayes-1 []
-  (let [px-1-distinct-occurrences-first (:px1 distinct-occurrences-first)
-        px-1-distinct-occurrences-second (:px1 distinct-occurrences-second)
+  (let [px-1-distinct-occurrences-first (first distinct-occurrences-first)
+        px-1-distinct-occurrences-second (first distinct-occurrences-second)
 
         total-occurrences-first (distincts->total px-1-distinct-occurrences-first)
         total-occurrences-second (distincts->total px-1-distinct-occurrences-second)
