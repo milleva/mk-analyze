@@ -23,6 +23,7 @@
 (defn- ->class-probabilities [distinct-counts total-count]
   (map (fn [[color count]] [color (/ count total-count)]) distinct-counts))
 
+; TODO replace filter first with "seek" helper
 (defn- get-probability [color probabilities]
   (let [color-p (-> (filter (fn [[c _]] (= c color)) probabilities)
                     first)]
