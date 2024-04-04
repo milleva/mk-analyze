@@ -14,9 +14,6 @@
 ;next implement only for classes :first & :second
 ;what is the probability that given all pixels, image is :first (and that image is :second)
 
-(def ^:private classes
-  [:first :second :third :fourth :fifth :sixth :seventh :eigth :nineth :tenth :eleventh :twelfth])
-
 (defn- distincts->total [distinct-occurrences]
   (reduce + (map second distinct-occurrences)))
 

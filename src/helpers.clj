@@ -1,5 +1,14 @@
 (ns helpers)
 
+(defn seek [pred coll]
+  (->> coll
+       (filter pred)
+       first))
+
+(defn divisible? [x n]
+  (= (mod x n)
+     0))
+
 (defn ->4digits [n]
   (let [len (count (str n))
         remaining-len (- 4 len)
