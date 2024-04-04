@@ -1,5 +1,5 @@
 (ns analysis
-  (:require [image-recognition.image-recognition :as ir]
+  (:require [image-recognition.image-recognition-tools :as ir]
             [mikera.image.core :refer [load-image-resource]]
             [video-processing.video-processing :as vp]))
 

@@ -1,9 +1,9 @@
 (ns main
   (:use mikera.image.core)
   (:require [analysis :as analysis]
-            [image-recognition.image-recognition :as ir]
+            [image-recognition.image-recognition-tools :as ir]
             [image-recognition.naive-bayes :refer [bayes-1]]
-            [video-processing.video-processing :as vp]))
+            [video-processing.video-processing :as vp :refer [list-files-in-dir]]))
 
 (def ^:private DEFAULT-FPS 2)
 
@@ -58,4 +58,8 @@
 
 (defn test-bayes-1 [_]
   (bayes-1))
+
+(defn test-list [_]
+  (let [path "images/clipped"]
+    (list-files-in-dir path)))
 

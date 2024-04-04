@@ -1,4 +1,4 @@
-(ns image-recognition.image-recognition
+(ns image-recognition.image-recognition-tools
   (:use mikera.image.core)
   (:require [clojure.math :as math]))
 

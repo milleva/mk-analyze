@@ -1,5 +1,5 @@
 (ns image-recognition.pixel-probabilities
-  (:require [image-recognition.image-recognition :refer [get-test-img-color-grid]]))[]
+  (:require [image-recognition.image-recognition-tools :refer [get-test-img-color-grid]]))[]
 
 (defn get2d [m x y]
   (-> m (get x) (get y)))
