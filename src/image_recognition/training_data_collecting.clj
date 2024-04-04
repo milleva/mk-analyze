@@ -3,7 +3,7 @@
             [file-io :refer [append-res clear-res-txt list-filenames-in-dir
                              read-res]]
             [helpers :refer [divisible? seek]]
-            [image-recognition.image-recognition-tools :as ir]
+            [image-recognition.image-tools :as ir]
             [mikera.image.core :refer [load-image-resource]]))
 
 (def ^:private classes

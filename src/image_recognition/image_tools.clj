@@ -1,4 +1,4 @@
-(ns image-recognition.image-recognition-tools
+(ns image-recognition.image-tools
   (:use mikera.image.core))
 
 (defn rgb-components
