@@ -40,15 +40,3 @@
 
 (defn test-bayes-1 [_]
   (bayes-1))
-
-(defn test-list [_]
-  (let [path "images/placement_training_data/first/"]
-    (prn (list-filenames-in-dir path))))
-
-(defn test-spit [_]
-  (write-res "text/placement_training_data/first.txt" ""))
-
-(defn test-slurp [_]
-  (let [res-path "text/placement_training_data/first.txt"
-        content (read-res res-path)]
-    (str/split content #"\n")))
