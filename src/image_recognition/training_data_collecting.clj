@@ -117,8 +117,8 @@
 ; ----- test data -------
 
 ; example test data
-(def ^:private test-data
-  ["15;3;2" "3;5;1"])
+;(def ^:private test-data
+;  ["15;3;2" "3;5;1"])
 
 (defn generate-parsed-test-data [file-path]
   (let [img-file (load-image-resource (str file-path))
@@ -133,5 +133,6 @@
                               y-pxs))
                        x-pxs))
 
-        test-data (map (fn [{:keys [r g b]}] (str r ";" g ";" b)) test-rgbs)]))
+        test-data (map (fn [{:keys [r g b]}] (str r ";" g ";" b)) test-rgbs)]
+    test-data))
 
