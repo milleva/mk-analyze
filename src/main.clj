@@ -75,9 +75,9 @@
                                   (str count " p" i " " r ";" g ";" b))) rgbs)
 
 
-        txt-dir-path "text/placement_training_data/first.txt"]
+        txt-res-path "text/placement_training_data/first.txt"]
     (doseq [rgb-str rgb-strs]
-      (append-res txt-dir-path (str rgb-str "\n")))
+      (append-res txt-res-path (str rgb-str "\n")))
     ;(write-res txt-dir-path (str r ";" g ";" b))
     ;(prn r g b)
     ))
