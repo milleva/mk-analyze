@@ -5,7 +5,8 @@
                              write-res]]
             [image-recognition.image-recognition-tools :as ir]
             [image-recognition.naive-bayes :refer [bayes-1]]
-            [video-processing.video-processing :as vp]))
+            [video-processing.video-processing :as vp]
+            [clojure.string :as str]))
 
 (def ^:private DEFAULT-FPS 2)
 
@@ -45,6 +46,10 @@
   (= (mod x n)
      0))
 
+(defn- get-existing-content [res-path]
+  (let [content (read-res res-path)]
+    (str/split content #"\n")))
+
 (defn train-first [_]
   ;read image rgb components
   ;write to file
@@ -66,7 +71,8 @@
                        x-pxs))
 
         rgb-strs (map-indexed (fn [i {:keys [r g b]}]
-                                (str "p" i " " r ";" g ";" b)) rgbs)
+                                (let [count 1]
+                                  (str count " p" i " " r ";" g ";" b))) rgbs)
 
 
         txt-dir-path "text/placement_training_data/first.txt"]
@@ -104,4 +110,6 @@
   (write-res "text/placement_training_data/first.txt" ""))
 
 (defn test-slurp [_]
-  (prn (read-res "text/test-spit.txt")))
+  (let [res-path "text/placement_training_data/first.txt"
+        content (read-res res-path)]
+    (str/split content #"\n")))
