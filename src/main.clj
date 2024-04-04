@@ -82,23 +82,6 @@
     ;(prn r g b)
     ))
 
-
-(defn tezt [_]
-  (let [path "images/clipped/0378.png"
-        img (load-image-resource path)]
-    (prn (ir/img-wh img))
-
-    (prn "w" (- 1850 1600))
-    (prn "h" (- 1030 860))
-
-    (prn (ir/img-rgb-components-at img 10 10))
-    (prn (ir/img-rgb-components-at img 10 20))
-    (prn (ir/img-rgb-components-at img 10 30))
-    (prn (ir/img-rgb-components-at img 20 10))
-    (prn (ir/img-rgb-components-at img 20 20))
-    (prn (ir/img-rgb-components-at img 20 30))
-    ))
-
 (defn test-bayes-1 [_]
   (bayes-1))
 
