@@ -38,9 +38,3 @@
     (let [is-deleted (safe-delete (->clipped-image-path image-idx))]
       (when is-deleted
         (recur (inc image-idx))))))
-
-(defn list-files-in-dir [path]
-  (let [dir (io/file path)
-        files (file-seq dir)]
-    (prn (take 10 files))
-    files))

@@ -5,7 +5,7 @@
 ;placement location width within pixels 1600, 1850 => 250
 ;placement location height within pixels 860, 1030 => 170
 
-;Create grid with every 10th pixel. 425 pixels total.
+;Create grid with every 10th pixel. 468 pixels total.
 ;For each pixel list occurrences of distinct rgb colors.
 
 ;first implement only for classes :first & :second
