@@ -26,11 +26,11 @@
 (defn- gen-training-data-for-image [class-name img-file]
   (let [txt-res-path (class-name->text-file-path class-name)
 
+        existing-rgb-counts (get-existing-content txt-res-path)
+
         ; loop px locations
         x-pxs (filter #(divisible? % 10) (range 1600 1851))
         y-pxs (filter #(divisible? % 10) (range 860 1031))
-
-        existing-rgb-counts (get-existing-content txt-res-path)
 
         new-rgbs (flatten
                   (map (fn [x]
@@ -120,5 +120,18 @@
 (def ^:private test-data
   ["15;3;2" "3;5;1"])
 
-(defn generate-parsed-test-data [])
+(defn generate-parsed-test-data [file-path]
+  (let [img-file (load-image-resource (str file-path))
+
+        x-pxs (filter #(divisible? % 10) (range 1600 1851))
+        y-pxs (filter #(divisible? % 10) (range 860 1031))
+
+        test-rgbs (flatten
+                  (map (fn [x]
+                         (map (fn [y]
+                                (ir/img-rgb-components-at img-file x y))
+                              y-pxs))
+                       x-pxs))
+
+        test-data (map (fn [{:keys [r g b]}] (str r ";" g ";" b)) test-rgbs)]))
 
