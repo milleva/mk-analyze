@@ -1,9 +1,8 @@
 (ns main
   (:use mikera.image.core)
-  (:require [clojure.string :as str]
-            [file-io :refer [list-filenames-in-dir read-res write-res]]
-            [image-recognition.naive-bayes :refer [bayes-1]]
-            [image-recognition.training-data-collecting :refer [generate-training-data-from-images]]
+  (:require [image-recognition.naive-bayes :refer [bayes-1]]
+            [image-recognition.training-data-collecting :refer [fetch-and-parse-training-data
+                                                                generate-training-data-from-images]]
             [video-processing.video-processing :as vp]))
 
 (def ^:private DEFAULT-FPS 2)
@@ -40,3 +39,6 @@
 
 (defn test-bayes-1 [_]
   (bayes-1))
+
+(defn tezt [_]
+  (prn (fetch-and-parse-training-data :second)))

@@ -13,10 +13,10 @@
   (let [content (read-res res-path)]
     (str/split content #"\n")))
 
-(defn placement->img-dir-path [class-name]
+(defn class-name->img-dir-path [class-name]
   (str "images/placement_training_data/" (name class-name) "/"))
 
-(defn placement->text-file-path [class-name]
+(defn class-name->text-file-path [class-name]
   (str "text/placement_training_data/" (name class-name) ".txt"))
 
 (defn- add-text-lines [txt-res-path lines]
@@ -24,7 +24,7 @@
       (append-res txt-res-path (str rgb-str "\n"))))
 
 (defn- gen-training-data-for-image [class-name img-file]
-  (let [txt-res-path (placement->text-file-path class-name)
+  (let [txt-res-path (class-name->text-file-path class-name)
 
         ; loop px locations
         x-pxs (filter #(divisible? % 10) (range 1600 1851))
@@ -64,7 +64,7 @@
     (add-text-lines txt-res-path rgb-counts)))
 
 (defn- clear-lines-with-single-occurrence [class-name]
-  (let [txt-res-path (placement->text-file-path class-name)
+  (let [txt-res-path (class-name->text-file-path class-name)
         existing-rgb-counts (get-existing-content txt-res-path)
         multi-occurrence-lines (remove #(str/starts-with? % "1 p") existing-rgb-counts)]
     (clear-res-txt txt-res-path)
@@ -72,7 +72,7 @@
 
 (defn generate-training-data-from-images [class-name]
   {:pre (classes class-name)}
-  (let [img-dir-path (placement->img-dir-path class-name)
+  (let [img-dir-path (class-name->img-dir-path class-name)
         file-names (list-filenames-in-dir img-dir-path)]
 
     (doseq [file-name file-names]
@@ -82,3 +82,43 @@
        (load-image-resource (str img-dir-path file-name))))
     (println "\nGenerated training data for class" (name class-name) "using" (count file-names) "images.\nCleaning up.")
     (clear-lines-with-single-occurrence class-name)))
+
+; -----------------------
+; --- training data -----
+
+(defn- parse-raw-line [raw]
+  (let [[count-raw px-raw rgb] (str/split raw #" ")]
+    {:count (Integer/parseInt count-raw)
+     :pixel (Integer/parseInt (apply str (rest px-raw)))
+     :rgb rgb}))
+
+(defn- parse-raw-occurrences [raw-lines]
+  (let [occurrences (reduce
+                     (fn [acc curr]
+                       (let [{:keys [pixel count rgb]} (parse-raw-line curr)
+                             existing-px (seek #(= (:pixel %) pixel) acc)
+                             remaining (remove #(= (:pixel %) pixel) acc)]
+                         (if existing-px
+                           (conj remaining (assoc existing-px :val (conj (:val existing-px) [rgb count])))
+                           (conj acc {:pixel pixel :val [[rgb count]]}))))
+                     []
+                     raw-lines)
+        sorted-occurrences (sort-by :pixel occurrences)
+        parsed-data (map :val sorted-occurrences)]
+    parsed-data))
+
+(defn fetch-and-parse-training-data [class-name]
+  {:pre (classes class-name)}
+  (let [file-path (class-name->text-file-path class-name)
+        raw-occurrences (get-existing-content file-path)]
+    (parse-raw-occurrences raw-occurrences)))
+
+; -----------------------
+; ----- test data -------
+
+; example test data
+(def ^:private test-data
+  ["15;3;2" "3;5;1"])
+
+(defn generate-parsed-test-data [])
+
