@@ -1,6 +1,13 @@
 (ns image-recognition.image-tools
   (:use mikera.image.core))
 
+(defn safe-load-image [name] ;; TODO helpers?
+  (try
+      (do
+        (load-image-resource name)
+        true)
+      (catch Exception _e false)))
+
 (defn rgb-components
   "Return the RGB components of a colour value, in a 3-element map of long values"
   ([^long rgb]

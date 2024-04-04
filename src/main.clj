@@ -1,7 +1,6 @@
 (ns main
   (:use mikera.image.core)
-  (:require [analysis :as analysis]
-            [clojure.string :as str]
+  (:require [clojure.string :as str]
             [file-io :refer [list-filenames-in-dir read-res write-res]]
             [image-recognition.naive-bayes :refer [bayes-1]]
             [image-recognition.training-data-collecting :refer [generate-training-data-from-images]]
@@ -13,10 +12,6 @@
   (prn "clip")
   (vp/clip-video "media/first_recording.mkv" DEFAULT-FPS))
 
-(defn analyze [_]
-  (prn "analysis")
-  (prn (analysis/analyze-clipped-images)))
-
 (defn clean [_]
   (vp/delete-clipped-images))
 
@@ -26,7 +21,6 @@
 
 (def type->operation
   {:clip clip
-   :analyze analyze
    :clean clean
    :clip-new clip-new})
 
@@ -34,7 +28,7 @@
   (let [{type :type} opts
         operation (or
                    (type type->operation)
-                   analyze)]
+                   clip-new)]
     (operation opts)))
 
 ;image w, h = [1920, 1080]

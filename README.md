@@ -4,7 +4,7 @@ Sart from root with
 `clj -X main/run :type :[option]`
 
 Where options are
-`clip`, `analyze`, `clean` & `clip-new`
+`clip`, `clean` & `clip-new`
 
 Uses a wrapper for `ffmpeg` for video file processing. To use all features, you need `ffmpeg` installed on your system and runnable through your system path. \
 
