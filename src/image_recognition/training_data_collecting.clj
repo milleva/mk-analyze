@@ -6,8 +6,8 @@
             [image-recognition.image-tools :as ir]
             [mikera.image.core :refer [load-image-resource]]))
 
-(def ^:private classes
-  #{:first :second :third :fourth :fifth :sixth :seventh :eigth :nineth :tenth :eleventh :twelfth})
+(def placement-classes
+  #{:first :second :third :fourth :fifth :sixth :seventh :eighth :nineth :tenth :eleventh :twelfth})
 
 (defn- get-existing-content [res-path]
   (let [content (read-res res-path)]
@@ -71,7 +71,7 @@
     (add-text-lines txt-res-path multi-occurrence-lines)))
 
 (defn generate-training-data-from-images [class-name]
-  {:pre (classes class-name)}
+  {:pre (placement-classes class-name)}
   (let [img-dir-path (class-name->img-dir-path class-name)
         file-names (list-filenames-in-dir img-dir-path)]
 
@@ -80,8 +80,9 @@
       (gen-training-data-for-image
        class-name
        (load-image-resource (str img-dir-path file-name))))
-    (println "\nGenerated training data for class" (name class-name) "using" (count file-names) "images.\nCleaning up.")
-    (clear-lines-with-single-occurrence class-name)))
+    (println "\nGenerated training data for class" (name class-name) "using" (count file-names) "images.")
+    ;(clear-lines-with-single-occurrence class-name)
+    ))
 
 ; -----------------------
 ; --- training data -----
@@ -108,7 +109,7 @@
     parsed-data))
 
 (defn fetch-and-parse-training-data [class-name]
-  {:pre (classes class-name)}
+  {:pre (placement-classes class-name)}
   (let [file-path (class-name->text-file-path class-name)
         raw-occurrences (get-existing-content file-path)]
     (parse-raw-occurrences raw-occurrences)))
