@@ -7,7 +7,7 @@
             [mikera.image.core :refer [load-image-resource]]))
 
 (def placement-classes
-  #{:first :second :third :fourth :fifth :sixth :seventh :eighth :nineth :tenth :eleventh :twelfth})
+  [:first :second :third :fourth :fifth :sixth :seventh :eighth :nineth :tenth :eleventh :twelfth])
 
 (defn- get-existing-content [res-path]
   (let [content (read-res res-path)]
@@ -71,7 +71,7 @@
     (add-text-lines txt-res-path multi-occurrence-lines)))
 
 (defn generate-training-data-from-images [class-name]
-  {:pre (placement-classes class-name)}
+  {:pre ((set placement-classes) class-name)}
   (let [img-dir-path (class-name->img-dir-path class-name)
         file-names (list-filenames-in-dir img-dir-path)]
 
@@ -109,7 +109,7 @@
     parsed-data))
 
 (defn fetch-and-parse-training-data [class-name]
-  {:pre (placement-classes class-name)}
+  {:pre ((set placement-classes) class-name)}
   (let [file-path (class-name->text-file-path class-name)
         raw-occurrences (get-existing-content file-path)]
     (parse-raw-occurrences raw-occurrences)))

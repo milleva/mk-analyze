@@ -7,11 +7,14 @@
                                                                 placement-classes]]
             [video-processing.video-processing :as vp]))
 
-(def ^:private DEFAULT-FPS 1)
+(def ^:private DEFAULT-FPS 0.5)
 
-(defn clip [_]
-  (prn "clip")
-  (vp/clip-video "media/first_recording.mkv" DEFAULT-FPS))
+(defn clip [{param-vid :video}]
+  (let [default-vid "first_recording"
+        vid (or param-vid default-vid)
+        vid-path (str "media/" vid ".mkv")]
+    (prn "clip")
+    (vp/clip-video vid-path DEFAULT-FPS)))
 
 (defn clean [_]
   (vp/delete-clipped-images))
@@ -51,14 +54,6 @@
   (let [p-is-a (compare-classes test-image-name class-a class-b)]
     (println (->res-output p-is-a test-image-name class-a class-b))))
 
-(defn compare-classes-both-ways [test-image-name class-a class-b]
-  (let [p-is-a (compare-classes test-image-name class-a class-b)
-        p-is-b (compare-classes test-image-name class-b class-a)]
-
-    (prn)
-    (println (->res-output p-is-a test-image-name class-a class-b))
-    (println (->res-output p-is-b test-image-name class-b class-a))))
-
 (def all-placements (vec placement-classes))
 (def unsupported-placements #{:seventh :nineth})
 (def supported-placements (remove #(unsupported-placements %) all-placements))
@@ -77,9 +72,19 @@
     (compare-classes-with-result-ouput test-image-name class-a class-b)
     (prn)))
 
-(defn test-compare-all [_]
-  (let [test-image-name "4a"
-        class-a :first]
+(defn test-compare-all [{class :class}]
+  (let [test-image-name "none_a"
+        class-a (or class :first)]
     (prn)
     (compare-class-with-all-other-classes test-image-name class-a)
     (prn)))
+
+(defn compare-all-with-all [{img :img}]
+  (let [default-img "6a"
+        test-image-name (or img default-img)]
+    (prn)
+    (doseq [class supported-placements]
+      (println "comparing" class)
+      (compare-class-with-all-other-classes test-image-name class)
+      (prn))
+    (prn "done")))
