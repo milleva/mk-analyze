@@ -1,5 +1,13 @@
 (ns helpers)
 
+(defn spy
+  ([o]
+   (prn o)
+   o)
+  ([msg o]
+   (prn msg o)
+   o))
+
 (defn seek [pred coll]
   (->> coll
        (filter pred)
